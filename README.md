@@ -6,6 +6,7 @@ id: autoincrement
 uniq_code: varchar
 
 name: varchar
+
 ---
 Requirements:
 ---
