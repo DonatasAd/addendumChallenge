@@ -10,11 +10,13 @@ Do not create front-end.
 All you need to know is that any front application calls your queries and displays a QR code to any scanners. When scanner scan QR code the beneficiary information (uniq_code and name) appears. You are free to create endpoint and response instructions for front-end applications.
 Helpful:
 To generate QR code for this task we recommend to use free https://qrcode.tec-it.com/en (not required authorizations). You could choose other providers if you want.
+
 Important:
 1.	CRUD
 2.	RESTful
 3.	Clean OO/FP wise
 4.	Covered by tests
+
 Less important:
 1.	Security
 2.	Swagger
