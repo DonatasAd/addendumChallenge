@@ -29,5 +29,4 @@ http://localhost:8080/swagger-ui.html
 
 To get qr code with data from DB send request to
 http://localhost:8080/api/v1/qrcode/{id}
-result put into img tag src property
-//<img src="URL FROM REST API" />//
+result put into HTML img tag src property
