@@ -33,11 +33,18 @@ public class QRCodeServiceTest {
     @MockBean
     private FakeBeneficiaryAccessService fakeBeneficiaryAccessService;
 
+    private Beneficiary mockBeneficiary = new Beneficiary
+            .BeneficiaryBuilder()
+            .id(1)
+            .uniqueCode(UUID.fromString("0a25ceeb-1d43-42fe-bf20-19305049971f"))
+            .name("Donatas")
+            .build();
+
     @Test
     public void getQRCodeTest() {
-        when(fakeBeneficiaryAccessService.getBeneficiaryById(1))
-                .thenReturn(Optional.of(new Beneficiary(1, UUID.fromString("0a25ceeb-1d43-42fe-bf20-19305049971f"), "Donatas")));
+        when(fakeBeneficiaryAccessService.getById(1))
+                .thenReturn(Optional.of(mockBeneficiary));
         String ExpectedUrl = "https://qrcode.tec-it.com/API/QRCode?data=%7B%22name%22%3ADonatas%22%2C%22unique_code%22%3A%220a25ceeb-1d43-42fe-bf20-19305049971f%22%7D";
-        assertEquals(ExpectedUrl, qrCodeService.getQRCode(1).getUrl());
+        assertEquals(ExpectedUrl, qrCodeService.getById(1).get().getUrl());
     }
 }

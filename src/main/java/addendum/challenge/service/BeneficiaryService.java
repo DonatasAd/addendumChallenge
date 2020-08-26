@@ -1,6 +1,6 @@
 package addendum.challenge.service;
 
-import addendum.challenge.dao.BeneficiaryDao;
+import addendum.challenge.dao.IGenericDao;
 import addendum.challenge.model.Beneficiary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,32 +10,36 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BeneficiaryService {
-
-    private final BeneficiaryDao beneficiaryDao;
+public class BeneficiaryService implements IGenericService<Beneficiary> {
+    private final IGenericDao<Beneficiary> beneficiaryDao;
 
     @Autowired
-    public BeneficiaryService(@Qualifier("fakeBeneficiary") BeneficiaryDao beneficiaryDao) {
+    public BeneficiaryService(@Qualifier("fakeBeneficiary") IGenericDao<Beneficiary> beneficiaryDao) {
         this.beneficiaryDao = beneficiaryDao;
     }
 
-    public int addBeneficiary(Beneficiary beneficiary) {
-        return beneficiaryDao.addBeneficiary(beneficiary);
+    @Override
+    public int add(Beneficiary beneficiary) {
+        return beneficiaryDao.add(beneficiary);
     }
 
-    public List<Beneficiary> getAllBeneficiary(){
-        return beneficiaryDao.getAllBeneficiary();
+    @Override
+    public List<Beneficiary> getAll() {
+        return beneficiaryDao.getAll();
     }
 
-    public Optional<Beneficiary> getBeneficiaryById(Integer id) {
-        return beneficiaryDao.getBeneficiaryById(id);
+    @Override
+    public Optional<Beneficiary> getById(Integer id) {
+        return beneficiaryDao.getById(id);
     }
 
-    public int deleteBeneficiary(Integer id) {
-        return beneficiaryDao.deleteBeneficiary(id);
+    @Override
+    public int delete(Integer id) {
+        return beneficiaryDao.delete(id);
     }
 
-    public int putBeneficiary(Integer id, Beneficiary beneficiary) {
-        return beneficiaryDao.putBeneficiary(id, beneficiary);
+    @Override
+    public int put(Integer id, Beneficiary beneficiary) {
+        return beneficiaryDao.put(id, beneficiary);
     }
 }

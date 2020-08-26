@@ -2,7 +2,6 @@ package addendum.challenge.dao;
 
 import addendum.challenge.model.Beneficiary;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +10,35 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository("fakeBeneficiary")
-public class FakeBeneficiaryAccessService implements BeneficiaryDao {
+public class FakeBeneficiaryAccessService implements IGenericDao<Beneficiary> {
 
     private  static List<Beneficiary> DB = new ArrayList<>();
     private static final AtomicInteger count = new AtomicInteger(0);
 
     @Override
-    public int addBeneficiary(Beneficiary beneficiary) {
-        UUID unique_code = UUID.randomUUID();
+    public int add(Beneficiary beneficiary) {
+        UUID uniqueCode = UUID.randomUUID();
         Integer id = count.incrementAndGet();
-        DB.add(new Beneficiary(id,unique_code,beneficiary.getName()));
+        String name = beneficiary.getName();
+        DB.add(new Beneficiary.BeneficiaryBuilder().id(id).uniqueCode(uniqueCode).name(name).build());
         return 1;
     }
 
     @Override
-    public List<Beneficiary> getAllBeneficiary() {
+    public List getAll() {
         return DB;
     }
 
     @Override
-    public Optional<Beneficiary> getBeneficiaryById(Integer id) {
+    public Optional<Beneficiary> getById(Integer id) {
         return DB.stream()
                 .filter(beneficiary -> beneficiary.getId().equals(id))
                 .findFirst();
     }
 
     @Override
-    public int deleteBeneficiary(Integer id) {
-        Optional<Beneficiary> beneficiaryMaybe = getBeneficiaryById(id);
+    public int delete(Integer id) {
+        Optional<Beneficiary> beneficiaryMaybe = getById(id);
         if( beneficiaryMaybe.isEmpty()){
             return 0;
         }
@@ -47,11 +47,16 @@ public class FakeBeneficiaryAccessService implements BeneficiaryDao {
     }
 
     @Override
-    public int putBeneficiary(Integer id, Beneficiary beneficiary) {
-        return getBeneficiaryById(id).map(b -> {
+    public int put(Integer id, Beneficiary beneficiary) {
+        return getById(id).map(b -> {
             int indexOfBeneficiaryToUpdate = DB.indexOf(b);
             if(indexOfBeneficiaryToUpdate >= 0) {
-                Beneficiary updatedBeneficiary= new Beneficiary(b.getId(), b.getUnique_code(), beneficiary.getName());
+                Beneficiary updatedBeneficiary = new Beneficiary.
+                        BeneficiaryBuilder()
+                        .id(b.getId())
+                        .uniqueCode(b.getUniqueCode())
+                        .name(beneficiary.getName())
+                        .build();
                 DB.set(indexOfBeneficiaryToUpdate, updatedBeneficiary);
                 return 1;
             }

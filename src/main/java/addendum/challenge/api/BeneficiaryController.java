@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RequestMapping("api/v1/beneficiary")
 @RestController
-public class BeneficiaryController {
+public class BeneficiaryController implements IGenericController<Beneficiary> {
 
     private final BeneficiaryService beneficiaryService;
 
@@ -19,28 +19,28 @@ public class BeneficiaryController {
         this.beneficiaryService = beneficiaryService;
     }
 
-    @PostMapping
-    public void addBeneficiary(@RequestBody Beneficiary beneficiary){
-        beneficiaryService.addBeneficiary(beneficiary);
+    @Override
+    public void add(Beneficiary beneficiary) {
+        beneficiaryService.add(beneficiary);
     }
 
-    @GetMapping
-    public List<Beneficiary> getAllBeneficiary(){
-        return beneficiaryService.getAllBeneficiary();
+    @Override
+    public List<Beneficiary> getAll() {
+        return beneficiaryService.getAll();
     }
 
-    @GetMapping(path = "{id}")
-    public Optional<Beneficiary> getBeneficiaryById(@PathVariable("id") Integer id){
-        return beneficiaryService.getBeneficiaryById(id);
+    @Override
+    public Optional<Beneficiary> getById(Integer id) {
+        return beneficiaryService.getById(id);
     }
 
-    @DeleteMapping (path = "{id}")
-    public void deleteBeneficiary(@PathVariable("id") Integer id) {
-        beneficiaryService.deleteBeneficiary(id);
+    @Override
+    public void delete(Integer id) {
+        beneficiaryService.delete(id);
     }
 
-    @PutMapping (path = "{id}")
-    public void putBeneficiary(@PathVariable("id") Integer id, @RequestBody Beneficiary beneficiary) {
-        beneficiaryService.putBeneficiary(id, beneficiary);
+    @Override
+    public void put(Integer id, Beneficiary beneficiary) {
+        beneficiaryService.put(id, beneficiary);
     }
 }

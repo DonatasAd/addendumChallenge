@@ -13,14 +13,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class BeneficiaryServiceTest {
 
-    private Beneficiary mockBeneficiary = new Beneficiary(1, UUID.fromString("0a25ceeb-1d43-42fe-bf20-19305049971f"), "Donatas");
+    private Beneficiary mockBeneficiary = new Beneficiary
+            .BeneficiaryBuilder()
+            .id(1)
+            .uniqueCode(UUID.fromString("0a25ceeb-1d43-42fe-bf20-19305049971f"))
+            .name("Donatas")
+            .build();
     @Autowired
     private BeneficiaryService beneficiaryService;
 
@@ -31,29 +35,29 @@ class BeneficiaryServiceTest {
     void addBeneficiary() {
 
         when(fakeBeneficiaryAccessService
-                .addBeneficiary(mockBeneficiary))
+                .add(mockBeneficiary))
                 .thenReturn(1);
-        assertEquals(1, beneficiaryService.addBeneficiary(mockBeneficiary));
+        assertEquals(1, beneficiaryService.add(mockBeneficiary));
     }
 
     @Test
     void getBeneficiaryById() {
-        when(fakeBeneficiaryAccessService.getBeneficiaryById(1))
+        when(fakeBeneficiaryAccessService.getById(1))
                 .thenReturn(Optional.of(mockBeneficiary));
-        assertEquals(mockBeneficiary, beneficiaryService.getBeneficiaryById(1).get());
+        assertEquals(mockBeneficiary, beneficiaryService.getById(1).get());
     }
 
     @Test
     void deleteBeneficiary() {
-        when(fakeBeneficiaryAccessService.deleteBeneficiary(1))
+        when(fakeBeneficiaryAccessService.delete(1))
                 .thenReturn(1);
-        assertEquals(1, beneficiaryService.deleteBeneficiary(1));
+        assertEquals(1, beneficiaryService.delete(1));
     }
 
     @Test
     void putBeneficiary() {
-        when(fakeBeneficiaryAccessService.putBeneficiary(1,mockBeneficiary))
+        when(fakeBeneficiaryAccessService.put(1,mockBeneficiary))
                 .thenReturn(1);
-        assertEquals(1, beneficiaryService.putBeneficiary(1,mockBeneficiary));
+        assertEquals(1, beneficiaryService.put(1,mockBeneficiary));
     }
 }
