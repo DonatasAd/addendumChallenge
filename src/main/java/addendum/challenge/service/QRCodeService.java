@@ -3,7 +3,7 @@ package addendum.challenge.service;
 import addendum.challenge.dao.IGenericDao;
 import addendum.challenge.model.Beneficiary;
 import addendum.challenge.model.QRCode;
-import addendum.challenge.model.QRCodeFactory;
+import addendum.challenge.model.Factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class QRCodeService implements IGenericService<QRCode> {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        QRCodeFactory factory = new QRCodeFactory();
+        Factory factory = new Factory();
         QRCode code = factory.GetQRCode("https://qrcode.tec-it.com/API/QRCode?data=" + encodedString);
         return Optional.of(code);
     }
